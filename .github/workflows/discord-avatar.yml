@@ -1,0 +1,57 @@
+# Keeps Ferren's profile picture on the page in step with her Discord avatar.
+# Every 30 minutes it asks the official Discord API for her current picture (scripts/update-avatar.mjs); when it
+# changed, the new data/avatar.json is committed and GitHub Pages is asked to publish it.
+# Needs one repository secret: DISCORD_BOT_TOKEN (the Ferren bot's token). It is never sent to the browser.
+name: Discord avatar
+
+on:
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: discord-avatar
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for the bot token
+        id: token
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+        run: |
+          # until the DISCORD_BOT_TOKEN secret is added, the job does nothing (the page keeps its bundled picture)
+          if [ -z "$DISCORD_BOT_TOKEN" ]; then echo "set=no" >> "$GITHUB_OUTPUT"; echo "no token yet"; else echo "set=yes" >> "$GITHUB_OUTPUT"; fi
+      - if: steps.token.outputs.set == 'yes'
+        uses: actions/checkout@v4
+      - if: steps.token.outputs.set == 'yes'
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Read the avatar from Discord
+        if: steps.token.outputs.set == 'yes'
+        run: node scripts/update-avatar.mjs
+        env:
+          DISCORD_BOT_TOKEN: ${{ secrets.DISCORD_BOT_TOKEN }}
+      - name: Publish the change
+        if: steps.token.outputs.set == 'yes'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if git diff --quiet -- data/avatar.json; then
+            echo "no change"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data/avatar.json
+          git commit -m "Update Ferren's Discord avatar"
+          git push
+          # pushes made by this workflow do not start a Pages build on their own, so ask for one
+          gh api -X POST "repos/${{ github.repository }}/pages/builds" || true

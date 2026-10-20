@@ -1,0 +1,290 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Ferren</title>
+  <meta name="description" content="Ferren, founder of the Q-CORE style on Roblox. The game, the Q-CORE gallery, the portfolio, the Roblox groups and the community Discord in one place.">
+  <meta name="theme-color" content="#0d0d1d">
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="Ferren · Q-CORE">
+  <meta property="og:description" content="Founder of the Q-CORE style on Roblox. Game, gallery, portfolio and community.">
+  <meta property="og:image" content="https://imghostxz.github.io/ferren/img/share.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" type="image/png" href="img/avatar-64.png">
+  <link rel="apple-touch-icon" href="img/avatar-180.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Cormorant+Garamond:ital,wght@0,600;1,500&family=Jost:wght@400;500;600&family=Mrs+Saint+Delafield&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <noscript><style>.gate { display: none; } .rv, .name-sign, .card { opacity: 1 !important; transform: none !important; clip-path: none !important; filter: none !important; }</style></noscript>
+</head>
+<body>
+  <!-- the world behind the card, back to front: cathedral sky and lightning, the two of us flying far away,
+       the Q-CORE wordmark, the angel and the candle, ash / embers / rain, fog, a lantern that follows the pointer -->
+  <div class="world" aria-hidden="true">
+    <div class="w-sky"><div class="w-sky-img"></div></div>
+    <div class="w-flash"></div>
+    <div class="w-wings"><img src="img/us/wings.webp" alt="" width="1408" height="828" decoding="async"></div>
+    <div class="w-word"><span>Q-CORE</span><span>Q-CORE</span></div>
+    <div class="w-side w-side-l"><img src="img/bg/angel.jpg" alt=""></div>
+    <div class="w-side w-side-r"><img src="img/bg/candle.jpg" alt=""></div>
+    <div class="w-thorns w-thorns-l"></div>
+    <div class="w-thorns w-thorns-r"></div>
+    <canvas class="w-dust" id="dust"></canvas>
+    <div class="w-fog f1"></div>
+    <div class="w-fog f2"></div>
+    <div class="w-lantern"></div>
+    <div class="w-grain"></div>
+  </div>
+
+  <!-- entrance: the Q-CORE gate. The tap that opens it is what lets the browser start the music -->
+  <div class="gate" id="gate" role="button" tabindex="0" aria-label="Enter Ferren's page">
+    <div class="gate-door gate-l"><div class="gate-img"></div></div>
+    <div class="gate-door gate-r"><div class="gate-img"></div></div>
+    <div class="gate-fog" aria-hidden="true"></div>
+    <div class="gate-flash" aria-hidden="true"></div>
+    <div class="gate-mark">
+      <span class="gate-q">Q-CORE</span>
+      <span class="gate-sign">Ferren</span>
+      <span class="gate-load" aria-hidden="true"><i id="gate-bar"></i></span>
+      <span class="gate-tap">Tap to enter</span>
+    </div>
+  </div>
+
+  <main class="page">
+    <article class="card" id="card">
+      <!-- gothic frame: silver corners and a chain draped over the banner, with our heart locket hanging from it -->
+      <svg class="corner c-tl" viewBox="0 0 70 70" aria-hidden="true"><use href="#corner"/></svg>
+      <svg class="corner c-tr" viewBox="0 0 70 70" aria-hidden="true"><use href="#corner"/></svg>
+      <svg class="corner c-bl" viewBox="0 0 70 70" aria-hidden="true"><use href="#corner"/></svg>
+      <svg class="corner c-br" viewBox="0 0 70 70" aria-hidden="true"><use href="#corner"/></svg>
+      <div class="card-shine" aria-hidden="true"></div>
+
+      <header class="profile">
+        <div class="banner" aria-hidden="true">
+          <div class="banner-img"></div>
+          <div class="banner-fog"></div>
+        </div>
+        <svg class="chain" id="chain" aria-hidden="true"></svg>
+        <button class="locket rv" id="locket" type="button" aria-label="Open a memory: a photo of our skins">
+          <span class="locket-ring" aria-hidden="true"></span>
+          <span class="locket-heart" aria-hidden="true">
+            <span class="locket-photo"><img src="img/us/locket.webp" alt="" width="420" height="636"></span>
+            <span class="locket-lid locket-lid-l"></span>
+            <span class="locket-lid locket-lid-r"></span>
+          </span>
+        </button>
+
+        <button class="avatar rv" id="avatar" type="button" aria-label="Ferren's profile picture">
+          <svg class="avatar-text" viewBox="0 0 200 200" aria-hidden="true">
+            <defs><path id="ring-path" d="M100,100 m-86,0 a86,86 0 1,1 172,0 a86,86 0 1,1 -172,0"></path></defs>
+            <text><textPath href="#ring-path">Q-CORE · FOUNDER · FERREN · Q-CORE · FOUNDER · FERREN ·</textPath></text>
+          </svg>
+          <span class="avatar-ring" aria-hidden="true"></span>
+          <!-- kept in step with her Discord picture: data/avatar.json, updated by .github/workflows/discord-avatar.yml -->
+          <img id="avatar-img" src="img/avatar.webp" alt="" width="256" height="256">
+        </button>
+
+        <h1 class="name" id="name"><span class="sr-only">Ferren</span><span class="sig" aria-hidden="true"><span class="sig-text">Ferren</span><span class="sig-pen"></span><svg class="sig-flourish" viewBox="0 0 300 34" aria-hidden="true"><path d="M8 22c40-10 70 6 112 2s70-20 104-12c22 5 40 4 68-6"/><path d="M132 26c10 4 22 5 34 2"/></svg></span></h1>
+
+        <ul class="badges rv" aria-label="About Ferren">
+          <li class="badge" tabindex="0" data-tip="Founder of Q-CORE">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 18h16l-1.6-9-4.2 3.6L12 5l-2.2 7.6L5.6 9z"/><path d="M5 20.5h14"/></svg>
+            <span class="sr-only">Founder of Q-CORE</span>
+          </li>
+          <li class="badge" tabindex="0" data-tip="Artist">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 4.5l5 5L9 20H4v-5z"/><path d="M12.5 6.5l5 5"/></svg>
+            <span class="sr-only">Artist</span>
+          </li>
+          <li class="badge" tabindex="0" data-tip="Roblox creator">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.2 3.5l14.3 3.8-3.8 14.2L2.5 17.7z"/><path d="M10.6 9.4l3.9 1-1 3.9-3.9-1z"/></svg>
+            <span class="sr-only">Roblox creator</span>
+          </li>
+        </ul>
+
+        <p class="role rv"><span class="role-q">Q-CORE</span> founder · artist</p>
+        <p class="bio rv">Founder of the Q-CORE style on Roblox. Gothic outfits, illustrations and manga-style art, and a community to share them with.</p>
+        <ul class="tags rv" aria-label="Topics">
+          <li>Q-CORE</li><li>Illustration</li><li>Manga</li><li>Roblox</li>
+        </ul>
+      </header>
+
+      <!-- the thorn branch from the reference pictures, as in the first version -->
+      <div class="thorn rv" aria-hidden="true"></div>
+
+      <nav class="links" aria-label="Ferren's links">
+        <a class="panel panel-game rv" href="https://www.roblox.com/games/104818929648978/Q-CORE-OUTFITS-by-Fer" target="_blank" rel="noopener">
+          <span class="game-cover" aria-hidden="true"><img src="img/game-cover.webp" alt="" width="768" height="364"></span>
+          <span class="game-flag">Play on Roblox</span>
+          <span class="panel-row">
+            <span class="panel-body">
+              <span class="panel-title">Q-CORE OUTFITS by Fer</span>
+              <span class="panel-text">Build, explore and define your own style. Fresh outfits, regular updates and the items you want.</span>
+              <span class="panel-credit">Created by Fer · Development ImGhostDev</span>
+            </span>
+            <span class="panel-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+          </span>
+        </a>
+
+        <h2 class="chapter rv"><svg class="chapter-line" viewBox="0 0 120 12" aria-hidden="true"><path d="M2 6h48l6-4 4 4 4-4 6 4h48"/></svg><span>Explore</span></h2>
+
+        <div class="group group-qcore rv">
+          <a class="panel" href="https://imghostxz.github.io/ferren-qcore/" target="_blank" rel="noopener">
+            <span class="panel-row">
+              <span class="panel-icon panel-icon-qcore" aria-hidden="true"><img src="img/qcore-duo.webp" alt="" width="313" height="360"></span>
+              <span class="panel-body">
+                <span class="panel-title">Q-CORE by Ferren</span>
+                <span class="panel-text">The outfit gallery: gothic skins, an After Dark horror wing and a community to join.</span>
+              </span>
+              <span class="panel-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+            </span>
+          </a>
+          <div class="strip strip-looks" id="looks" aria-label="Q-CORE outfits, drag or swipe to see more"></div>
+        </div>
+
+        <div class="group group-art rv">
+          <a class="panel" href="https://imghostxz.github.io/ferren-portfolio/#work" target="_blank" rel="noopener">
+            <span class="panel-row">
+              <span class="panel-icon" aria-hidden="true"><img src="img/art/art-01.webp" alt="" width="302" height="420"></span>
+              <span class="panel-body">
+                <span class="panel-title">Ferren Portfolio</span>
+                <span class="panel-text">Illustrations, adopts, YCH and manga style. PayPal or Robux.</span>
+              </span>
+              <span class="panel-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+            </span>
+          </a>
+          <div class="strip strip-art" id="art" aria-label="Artworks from the portfolio, drag or swipe to see more"></div>
+        </div>
+
+        <!-- a memory between the chapters -->
+        <figure class="memory rv" id="memory">
+          <button class="memory-frame" type="button" aria-label="Open the memory: our skins under the heart">
+            <span class="memory-curtain" aria-hidden="true"></span>
+            <img src="img/us/portrait.webp" alt="Our Roblox skins together, horns and a glowing heart above us" width="640" height="978" loading="lazy" decoding="async">
+          </button>
+          <figcaption><span class="memory-label">Memories</span></figcaption>
+        </figure>
+
+        <h2 class="chapter rv"><svg class="chapter-line" viewBox="0 0 120 12" aria-hidden="true"><path d="M2 6h48l6-4 4 4 4-4 6 4h48"/></svg><span>Community</span></h2>
+
+        <a class="panel panel-discord rv" href="https://discord.gg/yUHukMJtHS" target="_blank" rel="noopener">
+          <span class="panel-row">
+            <span class="panel-icon"><img src="img/icons/discord.webp" alt="" width="192" height="192"></span>
+            <span class="panel-body">
+              <span class="panel-title">Community Ferren</span>
+              <span class="panel-text">The official Discord. Meet the community, share your fits and make friends.</span>
+              <span class="panel-live" id="discord-live" hidden><i aria-hidden="true"></i><span></span></span>
+            </span>
+            <span class="panel-go panel-go-text" aria-hidden="true">Join</span>
+          </span>
+        </a>
+
+        <a class="panel panel-group rv" href="https://www.roblox.com/share/g/33531403" target="_blank" rel="noopener">
+          <span class="panel-row">
+            <span class="panel-icon panel-icon-studs"><img src="img/icons/ogashxadam.webp" alt="" width="192" height="192"></span>
+            <span class="panel-body">
+              <span class="panel-title">OGASHxADAM</span>
+              <span class="panel-text">Ferren's Roblox group, the home of Q-CORE OUTFITS.</span>
+            </span>
+            <span class="panel-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+          </span>
+        </a>
+
+        <a class="panel panel-studio rv" href="https://www.roblox.com/share/g/35931389" target="_blank" rel="noopener">
+          <span class="panel-row">
+            <span class="panel-icon panel-icon-chrome"><img src="img/icons/gstudio.webp" alt="" width="192" height="192"></span>
+            <span class="panel-body">
+              <span class="panel-title">G Studio Labs</span>
+              <span class="panel-text">We create games, maps, and digital projects. Games. Systems. Experiences.</span>
+              <span class="panel-credit">Roblox development community · ImGhostrxz</span>
+            </span>
+            <span class="panel-go" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></span>
+          </span>
+        </a>
+      </nav>
+
+      <!-- the ending: Ferren's signature written over a dark photo of us, with a ring and a line for her man -->
+      <footer class="foot">
+        <figure class="vow rv" id="vow">
+          <div class="vow-photo" aria-hidden="true"><img src="img/us/vow.webp" alt="" width="640" height="803" loading="lazy" decoding="async"></div>
+          <div class="vow-embers" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <figcaption class="vow-text">
+            <span class="sig sig-foot" aria-hidden="true"><span class="sig-text">Ferren</span><span class="sig-pen"></span><svg class="sig-flourish" viewBox="0 0 300 34" aria-hidden="true"><path d="M8 22c40-10 70 6 112 2s70-20 104-12c22 5 40 4 68-6"/><path d="M132 26c10 4 22 5 34 2"/></svg></span>
+            <span class="sr-only">Signed, Ferren.</span>
+            <svg class="ring" viewBox="0 0 72 48" aria-hidden="true">
+              <defs>
+                <linearGradient id="band" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".38" stop-color="#b9b4ad"/><stop offset=".62" stop-color="#f4efe8"/><stop offset="1" stop-color="#6f6b67"/></linearGradient>
+              </defs>
+              <g class="ring-l"><ellipse cx="28" cy="29" rx="15" ry="14" fill="none" stroke="url(#band)" stroke-width="3.4"/></g>
+              <g class="ring-r"><ellipse cx="44" cy="29" rx="15" ry="14" fill="none" stroke="url(#band)" stroke-width="3.4"/><path d="M44 15l-4-4.5 2-2.5h4l2 2.5z" fill="#c06c74" stroke="#f4efe8" stroke-width=".8"/></g>
+              <path class="ring-over" d="M36.5 18.6a15 14 0 0 1 4.6 23.6" fill="none" stroke="url(#band)" stroke-width="3.4" stroke-linecap="round"/>
+              <path class="ring-spark" d="M52 6l1.2 3.3 3.3 1.2-3.3 1.2L52 15l-1.2-3.3-3.3-1.2 3.3-1.2z" fill="#fff"/>
+            </svg>
+            <span class="vow-love">I love my man</span>
+            <span class="vow-who"><span class="vow-handle">@imghostrxzz</span> · ImGhostDev</span>
+          </figcaption>
+        </figure>
+        <p class="credit rv">Designed &amp; Developed by <span>Im Ghost Dev</span></p>
+        <p class="rights rv">© <span id="year">2026</span> Ferren · All rights reserved</p>
+      </footer>
+    </article>
+  </main>
+
+  <!-- no music for now. If a licensed copy of the song is ever placed in audio/so-proud.mp3, this bar appears and plays it -->
+  <aside class="np" id="np" aria-label="Music" hidden>
+    <span class="np-art" aria-hidden="true"><img id="np-art" src="img/icons/game.webp" alt=""></span>
+    <span class="np-meta">
+      <a class="np-title" href="https://soundcloud.com/cecenatalie/so-proud-1" target="_blank" rel="noopener">So proud</a>
+      <span class="np-artist">Cece Natalie</span>
+    </span>
+    <span class="np-eq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+    <span class="np-time" id="np-time" aria-hidden="true">0:00</span>
+    <button class="np-sound" id="np-sound" type="button" aria-pressed="true" aria-label="Music on">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path class="on" d="M4 9v6h4l5 4V5L8 9z"/><path class="on wave" d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12"/><path class="off" d="M16 9l5 6M21 9l-5 6"/></svg>
+    </button>
+    <span class="np-bar" aria-hidden="true"><i id="np-progress"></i></span>
+    <audio id="np-audio" preload="auto"></audio>
+  </aside>
+
+  <!-- full view of a Q-CORE outfit -->
+  <dialog class="look" id="look" aria-label="Q-CORE outfit">
+    <button class="look-close" type="button" aria-label="Close">✕</button>
+    <button class="look-nav look-prev" type="button" aria-label="Previous outfit">‹</button>
+    <figure class="look-figure">
+      <div class="look-frame">
+        <img id="look-img" alt="">
+        <span class="look-sign" aria-hidden="true">Ferren</span>
+      </div>
+      <figcaption><a href="https://imghostxz.github.io/ferren-qcore/" target="_blank" rel="noopener">See every outfit in the Q-CORE gallery</a></figcaption>
+    </figure>
+    <button class="look-nav look-next" type="button" aria-label="Next outfit">›</button>
+  </dialog>
+
+  <!-- full view of a memory -->
+  <dialog class="look keep" id="keep" aria-label="Memory">
+    <button class="look-close" type="button" aria-label="Close">✕</button>
+    <figure class="look-figure">
+      <div class="look-frame keep-frame"><img id="keep-img" alt=""></div>
+    </figure>
+  </dialog>
+
+  <!-- shared drawings -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#f4efe8"/><stop offset=".45" stop-color="#8e8c89"/><stop offset=".7" stop-color="#d9d4cc"/><stop offset="1" stop-color="#5d5a57"/>
+      </linearGradient>
+      <g id="corner" fill="none" stroke="url(#silver)" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 67V22C3 11 11 3 22 3h45" stroke-width="2"/>
+        <path d="M10 67V25c0-8 7-15 15-15h42" stroke-width="1" opacity=".7"/>
+        <path d="M22 3l3-6M38 3l2-5M52 3l2-5M3 22l-6 3M3 38l-5 2M3 52l-5 2" stroke-width="1.4"/>
+        <path d="M18 18l5 5m0-5l-5 5" stroke-width="1.6"/>
+        <circle cx="20.5" cy="20.5" r="5.5" stroke-width="1.1"/>
+      </g>
+    </defs>
+  </svg>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
