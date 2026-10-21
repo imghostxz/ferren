@@ -486,6 +486,17 @@ body.is-in .np { transform: translate(-50%, 0); transition-delay: 1.6s; }
 .lite .card::before, .lite .links > .panel::after, .lite .group::after, .lite .vow::after { --edge: 140deg; }
 .lite .avatar-ring, .lite .panel-game::after { --spin: 140deg; }
 .lite .panel, .lite .card, .lite .strip-item { transition: none !important; }
+/* signatures and the Q-CORE mark in plain ink: some phone browsers (and forced dark modes) draw gradient-clipped text
+   as an empty box with only its shadow, which left the name faded and boxed */
+.lite .sig-text, .lite .role-q { background: none !important; color: var(--ivory) !important; -webkit-text-fill-color: currentColor; filter: none !important; text-shadow: 0 3px 18px rgba(124, 47, 54, 0.85); }
+.lite .role-q { color: var(--silver) !important; }
+.lite .sig-flourish { filter: none; }
+/* the ending is always shown complete on phones: the photo in full light, the signature, the rings and the words */
+.lite .vow-photo img { transform: none !important; filter: none !important; transition: none !important; }
+.lite .sig-foot .sig-text { clip-path: none !important; animation: none !important; }
+.lite .sig-foot .sig-pen { display: none; }
+.lite .sig-foot .sig-flourish path { stroke-dashoffset: 0 !important; animation: none !important; }
+.lite .ring, .lite .vow-love, .lite .vow-who { opacity: 1 !important; translate: none !important; transition: none !important; }
 
 @media (prefers-reduced-motion: reduce) {
   .w-sky-img, .w-fog, .w-grain, .gate-img, .gate-fog, .gate-flash, .banner-img, .banner-fog, .avatar-ring, .avatar-text, .panel-game::after, .role-q, .game-flag::before, .panel-live i, .card::before, .vow::after, .links > .panel::after, .group::after, .vow-embers i, .ring, .ring-spark, .np-art img { animation: none !important; }

@@ -115,7 +115,7 @@
 
   // ---------- reveals: in as they reach the screen, softly out as they leave over the top ----------
   function startReveals() {
-    if (lite) { $('.rv').forEach((el) => el.classList.add('is-in')); return; } // shown as they are, nothing to watch
+    if (lite) { $$('.rv').forEach((el) => el.classList.add('is-in')); return; } // shown as they are, nothing to watch
     const io = new IntersectionObserver((entries) => {
       let k = 0;
       entries.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top).forEach((en) => {
