@@ -15,8 +15,9 @@
   const ART = Array.from({ length: 9 }, (_, i) => `img/art/art-${String(i + 1).padStart(2, '0')}.webp`);
   const PORTFOLIO = 'https://imghostxz.github.io/ferren-portfolio/#work';
   const DISCORD_INVITE = 'yUHukMJtHS';
-  // a licensed copy of "So proud" (Cece Natalie) placed in audio/ plays the whole song; the first one found is used
-  const AUDIO_FILES = ['audio/so-proud.mp3', 'audio/so-proud.m4a'];
+  // a licensed copy of "So proud" (Cece Natalie) placed in audio/ plays the whole song: list its path here
+  // (for example 'audio/so-proud.mp3'). Empty while there is no file, so the page never asks for one that is missing.
+  const AUDIO_FILES = [];
   const VOLUME = 35; // 0-100
   const ART_SIZES = [[302, 420], [316, 420], [333, 420], [436, 420], [430, 420], [296, 420], [439, 420], [437, 420], [390, 420]];
 
@@ -171,7 +172,7 @@
     memory.style.setProperty('--mp', clamp((m.top + m.height / 2 - window.innerHeight / 2) / window.innerHeight, -1, 1).toFixed(3));
   }
 
-  // lightning over the cathedral now and then
+  // a soft, distant glow of lightning over the cathedral, rarely (no strobe)
   (function storm() {
     if (reduce) return;
     const flash = $('.w-flash');
@@ -183,7 +184,7 @@
           flash.classList.add('is-strike');
         }
         next();
-      }, 9000 + Math.random() * 9000);
+      }, 24000 + Math.random() * 18000);
     }());
   }());
 

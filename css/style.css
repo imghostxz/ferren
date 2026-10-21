@@ -61,8 +61,8 @@ body.is-in .w-sky { --zoom: 1; }
 .w-sky::after { content: ''; position: absolute; inset: 0; background: radial-gradient(50% 40% at 50% 32%, rgba(124, 47, 54, 0.45), transparent 70%), linear-gradient(180deg, rgba(13, 13, 29, 0.3), rgba(13, 13, 29, 0.5) 45%, var(--onyx) 95%); }
 @keyframes breathe { from { transform: scale(1.04); } to { transform: scale(1.14) translateY(-2%); } }
 .w-flash { inset: 0; opacity: 0; background: radial-gradient(70% 50% at 60% 18%, rgba(226, 228, 255, 0.5), transparent 70%); mix-blend-mode: screen; }
-.w-flash.is-strike { animation: strike 1.3s ease-out; }
-@keyframes strike { 0% { opacity: 0; } 4% { opacity: 0.9; } 10% { opacity: 0.1; } 16% { opacity: 0.6; } 100% { opacity: 0; } }
+.w-flash.is-strike { animation: strike 2.6s ease-in-out; }
+@keyframes strike { 0% { opacity: 0; } 30% { opacity: 0.3; } 100% { opacity: 0; } }
 .w-wings { /* the two of us flying over the sea, far behind everything; fades in on the way to the community */
   left: 50%; top: 46%; width: max(130vw, 980px); opacity: var(--wings, 0);
   transform: translate3d(-50%, calc(-50% + var(--sy) * -0.06px), 0); filter: blur(1px) saturate(0.9);
@@ -97,7 +97,6 @@ body.has-pointer .w-lantern { opacity: 1; }
 .w-grain {
   inset: -50%; opacity: 0.055;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  animation: grain 0.9s steps(4) infinite;
 }
 @keyframes grain { 25% { transform: translate(-3%, 2%); } 50% { transform: translate(2%, -3%); } 75% { transform: translate(-2%, -1%); } }
 
@@ -113,8 +112,8 @@ body.has-pointer .w-lantern { opacity: 1; }
 .gate-r .gate-img { right: 0; transform-origin: left center; }
 .gate-door::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 7, 15, 0.25), rgba(7, 7, 15, 0.6)); }
 .gate-fog { position: absolute; left: -40%; right: -40%; bottom: -5%; height: 50%; pointer-events: none; background: radial-gradient(30% 50% at 25% 70%, rgba(226, 218, 214, 0.2), transparent 70%), radial-gradient(30% 50% at 75% 75%, rgba(226, 218, 214, 0.16), transparent 70%); animation: fog 18s linear infinite alternate; }
-.gate-flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; background: radial-gradient(60% 45% at 50% 10%, rgba(226, 228, 255, 0.45), transparent 70%); mix-blend-mode: screen; animation: gate-strike 7s 2.2s infinite; }
-@keyframes gate-strike { 0%, 88%, 100% { opacity: 0; } 89% { opacity: 1; } 91% { opacity: 0.1; } 93% { opacity: 0.7; } }
+.gate-flash { position: absolute; inset: 0; pointer-events: none; opacity: 0; background: radial-gradient(60% 45% at 50% 10%, rgba(226, 228, 255, 0.45), transparent 70%); mix-blend-mode: screen; animation: gate-strike 16s 4s ease-in-out infinite; }
+@keyframes gate-strike { 0%, 80%, 100% { opacity: 0; } 88% { opacity: 0.35; } }
 .gate-mark { position: relative; z-index: 2; display: grid; justify-items: center; gap: 2px; padding: 40px 56px; text-align: center; transition: opacity 0.6s, transform 1s var(--ease); }
 .gate-mark::before { content: ''; position: absolute; inset: -40% -30%; z-index: -1; background: radial-gradient(closest-side, rgba(7, 7, 15, 0.9), rgba(7, 7, 15, 0.6) 55%, transparent); }
 .gate-q { font: 400 15px/1 var(--wordmark); letter-spacing: 0.42em; padding-left: 0.42em; color: var(--text-2); }
