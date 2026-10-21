@@ -471,6 +471,22 @@ body.is-in .np { transform: translate(-50%, 0); transition-delay: 1.6s; }
   .card::before, .links > .panel::after, .group::after, .vow::after { --edge: 140deg; }
   .avatar-ring, .panel-game::after { --spin: 140deg; }
 }
+/* ---------- light mode (phones and tablets, set by main.js): nothing moves or flashes while scrolling ---------- */
+.lite .w-flash, .lite .gate-flash, .lite .w-lantern, .lite .w-grain, .lite .w-dust, .lite .w-wings, .lite .w-fog.f2 { display: none !important; }
+.lite .w-sky-img, .lite .w-fog, .lite .gate-img, .lite .gate-fog, .lite .banner-img, .lite .banner-fog, .lite .avatar-ring, .lite .avatar-text,
+.lite .panel-game::after, .lite .role-q, .lite .game-flag::before, .lite .card::before, .lite .vow::after, .lite .links > .panel::after,
+.lite .group::after, .lite .vow-embers i, .lite .ring, .lite .ring-spark { animation: none !important; }
+.lite .w-sky, .lite .w-word, .lite .w-side, .lite .w-thorns, .lite .banner-img, .lite .memory-frame img, .lite .game-cover img { transform: none !important; }
+.lite .world *, .lite .vow * { mix-blend-mode: normal !important; }
+.lite .w-word { opacity: 0.18; }
+.lite .rv, .lite .rv.is-past, .lite .rv.is-in { opacity: 1 !important; transform: none !important; filter: none !important; transition: none !important; }
+.lite .card { opacity: 1; transform: none !important; filter: none !important; }
+.lite body.is-in .card, .lite .group.is-in .strip-item { animation: none !important; }
+.lite .memory-curtain { display: none; }
+.lite .card::before, .lite .links > .panel::after, .lite .group::after, .lite .vow::after { --edge: 140deg; }
+.lite .avatar-ring, .lite .panel-game::after { --spin: 140deg; }
+.lite .panel, .lite .card, .lite .strip-item { transition: none !important; }
+
 @media (prefers-reduced-motion: reduce) {
   .w-sky-img, .w-fog, .w-grain, .gate-img, .gate-fog, .gate-flash, .banner-img, .banner-fog, .avatar-ring, .avatar-text, .panel-game::after, .role-q, .game-flag::before, .panel-live i, .card::before, .vow::after, .links > .panel::after, .group::after, .vow-embers i, .ring, .ring-spark, .np-art img { animation: none !important; }
   .w-flash, .w-lantern { display: none; }

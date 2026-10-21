@@ -6,6 +6,11 @@
   const $ = (s, el = document) => el.querySelector(s);
   const $$ = (s, el = document) => [...el.querySelectorAll(s)];
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // phones and tablets get a light mode: the content and the scenery stay still while scrolling (no reveals, parallax,
+  // lightning, ash, tilt or self-moving strips). Those effects made touch screens flash and stutter.
+  const lite = !matchMedia('(pointer: fine)').matches || matchMedia('(max-width: 760px)').matches;
+  if (lite) document.documentElement.classList.add('lite');
+  const still = reduce || lite; // no ambient motion
   const fine = matchMedia('(pointer: fine)').matches;
   const root = document.documentElement;
   const clamp = (v, a, b) => Math.min(b, Math.max(a, v));
@@ -110,6 +115,7 @@
 
   // ---------- reveals: in as they reach the screen, softly out as they leave over the top ----------
   function startReveals() {
+    if (lite) { $('.rv').forEach((el) => el.classList.add('is-in')); return; } // shown as they are, nothing to watch
     const io = new IntersectionObserver((entries) => {
       let k = 0;
       entries.sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top).forEach((en) => {
@@ -151,7 +157,7 @@
     }, { passive: true });
   }
   // phones that report their tilt without asking (Android) tilt the world too
-  if (!fine && !reduce && 'DeviceOrientationEvent' in window && typeof DeviceOrientationEvent.requestPermission !== 'function') {
+  if (!fine && !still && 'DeviceOrientationEvent' in window && typeof DeviceOrientationEvent.requestPermission !== 'function') {
     window.addEventListener('deviceorientation', (e) => {
       if (e.gamma == null) return;
       pointer.x = clamp(e.gamma / 45, -0.5, 0.5);
@@ -160,7 +166,7 @@
     }, { passive: true });
   }
   function frameWorld() {
-    if (!dirty || reduce) return;
+    if (!dirty || still) return;
     dirty = false;
     const sy = window.scrollY;
     // written only on the two layers that read them: a change on the root made the browser restyle the whole page
@@ -180,7 +186,7 @@
 
   // a soft, distant glow of lightning over the cathedral, rarely (no strobe)
   (function storm() {
-    if (reduce) return;
+    if (still) return;
     const flash = $('.w-flash');
     (function next() {
       setTimeout(() => {
@@ -210,9 +216,9 @@
     const x0 = 22;
     const x1 = w - 22;
     const y0 = 10;
-    const sway = reduce ? 0 : Math.sin(t / 1600) * 8 + pointer.x * 26;
+    const sway = still ? 0 : Math.sin(t / 1600) * 8 + pointer.x * 26;
     const cx = w / 2 + sway;
-    const cy = 128 + (reduce ? 0 : Math.sin(t / 2100) * 4);
+    const cy = 128 + (still ? 0 : Math.sin(t / 2100) * 4);
     const at = (u) => ({
       x: (1 - u) ** 2 * x0 + 2 * (1 - u) * u * cx + u * u * x1,
       y: (1 - u) ** 2 * y0 + 2 * (1 - u) * u * cy + u * u * y0,
@@ -227,14 +233,14 @@
     const h = at(0.165);
     locket.style.setProperty('--lk-x', `${h.x.toFixed(1)}px`);
     locket.style.setProperty('--lk-y', `${(h.y + 6).toFixed(1)}px`);
-    locket.style.setProperty('--lk-r', `${(reduce ? 0 : Math.sin(t / 900) * 5 - pointer.x * 10).toFixed(2)}deg`);
+    locket.style.setProperty('--lk-r', `${(still ? 0 : Math.sin(t / 900) * 5 - pointer.x * 10).toFixed(2)}deg`);
   }
   drawChain(0);
 
   // one animation loop for the world and the chain; it rests when nothing moves on screen
   function loop(t) {
     frameWorld();
-    if (!reduce && window.scrollY < 600) drawChain(t);
+    if (!still && window.scrollY < 600) drawChain(t);
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
@@ -322,7 +328,7 @@
       p.style.setProperty('--gy', '0px');
     });
     p.addEventListener('pointerdown', (e) => {
-      if (reduce) return;
+      if (still) return;
       const r = p.getBoundingClientRect();
       const dot = document.createElement('span');
       dot.className = 'ripple';
@@ -371,7 +377,7 @@
     cf.mid = looks.clientWidth / 2;
   }
   function coverflow() {
-    if (reduce || !cf.items.length) return;
+    if (still || !cf.items.length) return;
     const sl = looks.scrollLeft;
     for (let i = 0; i < cf.items.length; i++) {
       const o = clamp((cf.centers[i] - sl - cf.mid) / cf.mid, -1.4, 1.4);
@@ -410,7 +416,7 @@
     (function step(t) {
       const dt = last ? Math.min(0.05, (t - last) / 1000) : 0;
       last = t;
-      if (!reduce && visible && !hover && t > holdUntil && !document.hidden && loopW) {
+      if (!still && visible && !hover && t > holdUntil && !document.hidden && loopW) {
         pos += speed * dt;
         if (pos >= loopW) pos -= loopW;
         if (pos < 0) pos += loopW;
@@ -455,7 +461,7 @@
       (function coast() {
         v *= 0.94;
         el.scrollLeft -= v;
-        if (Math.abs(v) > 0.4 && !reduce) raf = requestAnimationFrame(coast);
+        if (Math.abs(v) > 0.4 && !still) raf = requestAnimationFrame(coast);
         else el.classList.remove('is-drag');
       }());
     });
@@ -523,7 +529,7 @@
   // ---------- ash falling, embers rising, faint rain, sparks from the picture ----------
   const sparks = [];
   function burst(el) {
-    if (reduce) return;
+    if (still) return;
     const r = el.getBoundingClientRect();
     for (let i = 0; i < 28; i++) {
       const a = Math.random() * Math.PI * 2;
@@ -604,11 +610,11 @@
       requestAnimationFrame(tick);
     }
     size();
-    window.addEventListener('resize', () => { size(); if (reduce) frame(0); });
+    window.addEventListener('resize', () => { size(); if (still) frame(0); });
     document.addEventListener('visibilitychange', () => {
-      running = !document.hidden && !reduce;
+      running = !document.hidden && !still;
       if (running) { last = 0; requestAnimationFrame(tick); }
     });
-    if (reduce) frame(0); else requestAnimationFrame(tick);
+    if (still) frame(0); else requestAnimationFrame(tick);
   }());
 })();
