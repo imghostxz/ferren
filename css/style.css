@@ -464,6 +464,13 @@ body.is-in .np { transform: translate(-50%, 0); transition-delay: 1.6s; }
 }
 
 /* ======================= reduced motion ======================= */
+/* phones and tablets: the lights around the card edges and the avatar ring stay still (drawn once, at a resting
+   angle). Repainting those masked gradients every frame made touch screens stutter and flash. */
+@media (hover: none), (max-width: 760px) {
+  .card::before, .links > .panel::after, .group::after, .vow::after, .avatar-ring, .panel-game::after, .role-q { animation: none !important; }
+  .card::before, .links > .panel::after, .group::after, .vow::after { --edge: 140deg; }
+  .avatar-ring, .panel-game::after { --spin: 140deg; }
+}
 @media (prefers-reduced-motion: reduce) {
   .w-sky-img, .w-fog, .w-grain, .gate-img, .gate-fog, .gate-flash, .banner-img, .banner-fog, .avatar-ring, .avatar-text, .panel-game::after, .role-q, .game-flag::before, .panel-live i, .card::before, .vow::after, .links > .panel::after, .group::after, .vow-embers i, .ring, .ring-spark, .np-art img { animation: none !important; }
   .w-flash, .w-lantern { display: none; }

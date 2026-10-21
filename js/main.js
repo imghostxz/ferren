@@ -133,6 +133,8 @@
   const card = $('#card');
   const memory = $('#memory');
   let pointer = { x: 0, y: 0, cx: window.innerWidth / 2, cy: window.innerHeight / 2 };
+  const world = $('.world');
+  const moving = [world, $('.banner')];
   let dirty = true;
   window.addEventListener('scroll', () => { dirty = true; }, { passive: true });
   window.addEventListener('resize', () => { dirty = true; drawChain(performance.now()); coverflow(); }, { passive: true });
@@ -161,13 +163,17 @@
     if (!dirty || reduce) return;
     dirty = false;
     const sy = window.scrollY;
-    root.style.setProperty('--sy', sy.toFixed(1));
-    root.style.setProperty('--px', pointer.x.toFixed(3));
-    root.style.setProperty('--py', pointer.y.toFixed(3));
-    root.style.setProperty('--lx', `${pointer.cx}px`);
-    root.style.setProperty('--ly', `${pointer.cy}px`);
+    // written only on the two layers that read them: a change on the root made the browser restyle the whole page
+    // every frame, which is what made phones stutter and flash while scrolling
+    for (const el of moving) {
+      el.style.setProperty('--sy', sy.toFixed(1));
+      el.style.setProperty('--px', pointer.x.toFixed(3));
+      el.style.setProperty('--py', pointer.y.toFixed(3));
+    }
+    world.style.setProperty('--lx', `${pointer.cx}px`);
+    world.style.setProperty('--ly', `${pointer.cy}px`);
     const p = sy / Math.max(1, root.scrollHeight - window.innerHeight);
-    root.style.setProperty('--wings', (smooth(0.28, 0.6, p) * 0.5).toFixed(3));
+    world.style.setProperty('--wings', (smooth(0.28, 0.6, p) * 0.5).toFixed(3));
     const m = memory.getBoundingClientRect();
     memory.style.setProperty('--mp', clamp((m.top + m.height / 2 - window.innerHeight / 2) / window.innerHeight, -1, 1).toFixed(3));
   }
